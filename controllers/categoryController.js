@@ -19,8 +19,21 @@ const addCategory = async(req, res) => {
     }
 }
 
+const editCategory = async(req, res) => {
+    try {
+        const { id, name } = req.body
+        const category = await Category.findOne({ _id: id })
+        category.name = name
+        await category.save()
+        res.redirect('/admin/category')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 
 module.exports = {
     viewCategory,
-    addCategory
+    addCategory,
+    editCategory
 }
