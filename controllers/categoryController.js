@@ -30,8 +30,9 @@ const addCategory = async(req, res) => {
 
         res.redirect('/admin/category')
     } catch (error) {
+        req.flash('alertMessage', `${error.message}`)
+        req.flash('alertStatus', 'danger')
         res.redirect('/admin/category')
-        console.log(`error: ${error}`)
     }
 }
 
@@ -47,8 +48,9 @@ const editCategory = async(req, res) => {
 
         res.redirect('/admin/category')
     } catch (error) {
+        req.flash('alertMessage', `${error.message}`)
+        req.flash('alertStatus', 'danger')
         res.redirect('/admin/category')
-        console.log(error)
     }
 }
 
@@ -63,8 +65,9 @@ const deleteCategory = async(req, res) => {
 
         res.redirect('/admin/category')
     } catch (error) {
+        req.flash('alertMessage', `${error.message}`)
+        req.flash('alertStatus', 'danger')
         res.redirect('/admin/category')
-        console.log(error);
     }
 }
 
