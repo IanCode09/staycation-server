@@ -31,9 +31,21 @@ const editCategory = async(req, res) => {
     }
 }
 
+const deleteCategory = async(req, res) => {
+    try {
+        const { id } = req.params
+        const category = await Category.findOne({ _id: id })
+        await category.remove()
+        res.redirect('/admin/category')
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 module.exports = {
     viewCategory,
     addCategory,
-    editCategory
+    editCategory,
+    deleteCategory
 }
