@@ -12,6 +12,10 @@ var usersRouter = require('./routes/users');
 
 // Router Admin
 const adminRouter = require('./routes/admin')
+const categoryRouter = require('./routes/categoryRoutes')
+const bankRouter = require('./routes/bankRoutes')
+const itemRouter = require('./routes/itemRoutes')
+const bookingRouter = require('./routes/bookingRoutes')
 
 var app = express();
 
@@ -31,6 +35,10 @@ app.use('/users', usersRouter);
 
 // Admin
 app.use('/admin', adminRouter)
+app.use('/admin', categoryRouter)
+app.use('/admin', bankRouter)
+app.use('/admin', itemRouter)
+app.use('/admin', bookingRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
