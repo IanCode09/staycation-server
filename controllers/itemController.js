@@ -2,7 +2,6 @@ const Item = require('../models/Item')
 const Category = require('../models/Category')
 const Image = require('../models/Image')
 
-
 const viewItem = async(req, res) => {
     try {
         const item = await Item.find({})
@@ -21,6 +20,7 @@ const viewItem = async(req, res) => {
             item,
             category,
             alert,
+            action: 'view',
             title: "Staycation | Item"
         })
     } catch (error) {
@@ -64,7 +64,33 @@ const addItem = async(req, res) => {
     }
 }
 
+const showImageItem = async(req, res) => {
+    try {
+        const { id } = req.params
+        const item = await Item.findOne({ _id: id}).populate({ path: 'imageId', select: 'id imageUrl' })
+
+        const alertMessage = req.flash('alertMessage')
+        const alertStatus = req.flash('alertStatus')
+        const alert = {
+            message: alertMessage,
+            status: alertStatus,
+        }
+
+        res.render('admin/item/view_item', {
+            item,
+            alert,
+            action: 'show-image',
+            title: "Staycation | Item"
+        })
+    } catch (error) {
+        req.flash('alertMessage', `${error.message}`)
+        req.flash('alertStatus', 'danger')
+        res.redirect('/admin/item')
+    }
+}
+
 module.exports = {
     viewItem,
-    addItem
+    addItem,
+    showImageItem
 }
