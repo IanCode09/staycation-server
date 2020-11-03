@@ -97,7 +97,6 @@ const showEditItem = async(req, res) => {
         const item = await Item.findOne({ _id: id})
                 .populate({ path: 'imageId', select: 'id imageUrl' })
                 .populate({ path: 'categoryId', select: 'id name' })
-        console.log(item)
         const category = await Category.find({})
 
         const alertMessage = req.flash('alertMessage')
@@ -164,10 +163,37 @@ const editItem = async(req, res) => {
     }
 }
 
+const deleteItem = async(req, res) => {
+    try {
+        const { id } = req.params
+        const item = await Item.findOne({ _id: id}).populate('imageId')
+        console.log(item);
+        for(let i = 0; i < item.imageId.length; i++) {
+            Image.findOne({ _id: item.imageId[i]._id }).then((image) => {
+                fs.unlink(path.join(`public/${image.imageUrl}`))
+                image.remove()
+            }).catch((error) => {
+                req.flash('alertMessage', `${error.message}`)
+                req.flash('alertStatus', 'danger')
+                res.redirect('/admin/item')
+            })
+        }
+        await item.remove()
+        req.flash('alertMessage', 'Success Delete Item')
+        req.flash('alertStatus', 'success')
+        res.redirect('/admin/item')
+    } catch (error) {
+        req.flash('alertMessage', `${error.message}`)
+        req.flash('alertStatus', 'danger')
+        res.redirect('/admin/item')
+    }
+}
+
 module.exports = {
     viewItem,
     addItem,
     showImageItem,
     showEditItem,
-    editItem
+    editItem,
+    deleteItem
 }
