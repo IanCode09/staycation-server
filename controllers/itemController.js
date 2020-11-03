@@ -5,6 +5,10 @@ const Image = require('../models/Image')
 
 const viewItem = async(req, res) => {
     try {
+        const item = await Item.find({})
+            .populate({ path: 'imageId', select: 'id imageUrl' })
+            .populate({ path: 'categoryId', select: 'id name'})
+
         const category = await Category.find({})
         const alertMessage = req.flash('alertMessage')
         const alertStatus = req.flash('alertStatus')
@@ -14,6 +18,7 @@ const viewItem = async(req, res) => {
         }
 
         res.render('admin/item/view_item', {
+            item,
             category,
             alert,
             title: "Staycation | Item"
