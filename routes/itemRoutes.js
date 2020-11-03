@@ -6,5 +6,6 @@ router.get('/item', itemController.viewItem)
 router.post('/item', uploadMultiple, itemController.addItem)
 router.get('/item/show-image/:id', itemController.showImageItem)
 router.get('/item/:id', itemController.showEditItem)
+router.put('/item/:id', uploadMultiple, itemController.editItem)
 
 module.exports = router
