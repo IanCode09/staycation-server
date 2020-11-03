@@ -57,7 +57,7 @@ const editBank = async(req, res) => {
             
             await bank.save()
 
-            req.flash('alertMessage', 'Success Add Bank')
+            req.flash('alertMessage', 'Success Update Bank')
             req.flash('alertStatus', 'success')
 
             res.redirect('/admin/bank')
@@ -70,7 +70,7 @@ const editBank = async(req, res) => {
 
             await bank.save()
 
-            req.flash('alertMessage', 'Success Add Bank')
+            req.flash('alertMessage', 'Success Update Bank')
             req.flash('alertStatus', 'success')
 
             res.redirect('/admin/bank')
@@ -82,9 +82,28 @@ const editBank = async(req, res) => {
     }
 }
 
+const deleteBank = async(req, res) => {
+    try {
+        const { id } = req.params
+        const bank = await Bank.findOne({ _id: id})
+        await fs.unlink(path.join(`public/${bank.imageUrl}`))
+        await bank.remove()
+
+        req.flash('alertMessage', 'Success Delete Bank')
+        req.flash('alertStatus', 'success')
+
+        res.redirect('/admin/bank')
+    } catch (error) {
+        req.flash('alertMessage', `${error.message}`)
+        req.flash('alertStatus', 'danger')
+        res.redirect('/admin/bank')
+    }
+}
+
 
 module.exports = {
     viewBank,
     addBank,
-    editBank
+    editBank,
+    deleteBank
 }
