@@ -1,7 +1,8 @@
 const Bank = require('../models/Bank')
 
-const viewBank = (req, res) => {
+const viewBank = async(req, res) => {
     try {
+        const bank = await Bank.find({})
         const alertMessage = req.flash('alertMessage')
         const alertStatus = req.flash('alertStatus')
         const alert = {
@@ -9,6 +10,7 @@ const viewBank = (req, res) => {
             status: alertStatus,
         }
         res.render('admin/bank/view_bank', {
+            bank,
             alert,
             title: "Staycation | Bank"
         })
