@@ -5,5 +5,6 @@ const { uploadMultiple } = require('../middlewares/multer')
 router.get('/item', itemController.viewItem)
 router.post('/item', uploadMultiple, itemController.addItem)
 router.get('/item/show-image/:id', itemController.showImageItem)
+router.get('/item/:id', itemController.showEditItem)
 
 module.exports = router
