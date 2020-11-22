@@ -9,4 +9,6 @@ router.get('/item/:id', itemController.showEditItem)
 router.put('/item/:id', uploadMultiple, itemController.editItem)
 router.delete('/item/:id/delete', itemController.deleteItem)
 
+router.get('/item/show-detail-item/:itemId', itemController.detailItem)
+
 module.exports = router
